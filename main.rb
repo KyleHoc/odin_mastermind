@@ -12,7 +12,7 @@ def generate_number()
         numbers_added +=1
     end
   end
-  secret_number = secret_number.join
+  secret_number
 end
 
 def input_guess()
@@ -22,16 +22,45 @@ def input_guess()
 
     while !valid_guess
       guess = gets.strip
-      guess_check = guess.split('')
+      guess = guess.split('')
 
-      if correct_length(guess_check) && within_range(guess_check) && any_duplicates?(guess_check)
+      if correct_length(guess) && within_range(guess) && any_duplicates?(guess)
         valid_guess = true
       else
         puts "Invalid guess. Try again, guess must be four numbers between 1 and 6, no repeats. (ex. 1234):"
       end
     end
-    p guess
+    guess
 end
 
-generate_number()
-input_guess()
+def check_guess(number, guess)
+    hint = ['X', 'X', 'X', 'X']
+    correct_order = 0
+    correct_number = 0
+    index = 0
+
+    number.each_with_index do |num, x|
+      if guess.include?(num)
+        if guess[x] == number[x]
+          correct_order+=1
+        else
+          correct_number+=1
+        end
+      end
+    end
+
+    correct_order.times do
+      hint[index] = '@'
+      index+=1
+    end
+
+    correct_number.times do
+      hint[index] = 'O'
+      index+=1
+    end
+    p hint
+end
+
+#generate_number()
+#input_guess()
+check_guess([1,2,3,4], [9,6,9,1])
