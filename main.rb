@@ -6,7 +6,7 @@ def generate_number()
   secret_number = []
   numbers_added = 0
   while numbers_added < 4
-    number = rand(1..6)
+    number = rand(1..6).to_s
     if !secret_number.include?(number)
         secret_number[numbers_added] = number
         numbers_added +=1
@@ -58,9 +58,36 @@ def check_guess(number, guess)
       hint[index] = 'O'
       index+=1
     end
-    p hint
+    return hint.join
+end
+
+def play_game()
+    secret_code = generate_number()
+    correct_answer = false
+    index = 0
+
+    while !correct_answer && index < 12
+        puts "Guess Number #{index + 1}:"
+        guess = input_guess()
+        puts "Result:"
+        hint = check_guess(secret_code, guess)
+        puts "#{hint}"
+        puts ""
+        index+=1
+
+        if hint == "@@@@"
+            correct_answer = true
+        end
+    end
+
+    if correct_answer == true
+        puts "You win! The code was #{secret_code}"
+    else
+        puts "You lose. The code was #{secret_code}"
+    end
 end
 
 #generate_number()
 #input_guess()
-check_guess([1,2,3,4], [9,6,9,1])
+#check_guess(['1','2','3','4'], ['1','6','3','4'])
+#play_game()
